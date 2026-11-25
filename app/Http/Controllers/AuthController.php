@@ -40,11 +40,23 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Requset $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
+<<<<<<< Updated upstream
+=======
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/dashboard')->with('success', 'Login berhasil.');
+        }
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
+>>>>>>> Stashed changes
     }
 }
