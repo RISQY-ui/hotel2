@@ -32,10 +32,9 @@
             </ul>
         </div>
         <div class="d-flex align-items-center">
-            @guest
-                <a href="{{ route('auth.login') }}" class="btn btn-primary btn-sm">Login</a>
-            @endguest
-        </div>
+            @auth
+                <a href="" class="btn btn-primary btn-sm">LogOut</a>
+            @endauth
     </div>
 </nav>
 

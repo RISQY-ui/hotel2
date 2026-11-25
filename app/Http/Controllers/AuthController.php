@@ -14,6 +14,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
     public function register(Request $request)
     {
         $validate = $request->validate([
@@ -28,16 +33,11 @@ class AuthController extends Controller
             'password' => Hash::make($validate['password']),
         ]);
 
-        Auth::Login($user);
+        Auth::login($user);
 
         $request->session()->regenerate();
 
-        return redirect('/dashboard')->with('success', 'Registrasi berhasil. Anda telah login.');
-    }
-
-    public function showLoginForm()
-    {
-        return view('auth.login');
+        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil. Anda telah login.');
     }
 
     public function login(Request $request)
@@ -46,17 +46,15 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-<<<<<<< Updated upstream
-=======
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard')->with('success', 'Login berhasil.');
+            return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil.');
         }
+
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ])->onlyInput('email');
->>>>>>> Stashed changes
     }
 }

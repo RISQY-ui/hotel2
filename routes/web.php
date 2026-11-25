@@ -4,18 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
+Route::view('/dashboard', 'dashboard')->middleware('auth')->name('dashboard');
+
 Route::middleware('guest')->group(function() {
-    Route::get('/register',[AuthController::class, 'showREgisterForm'])->name('register');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
-});
-<<<<<<< Updated upstream
-=======
-
-Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 });
->>>>>>> Stashed changes
